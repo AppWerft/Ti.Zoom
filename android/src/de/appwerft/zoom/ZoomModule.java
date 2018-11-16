@@ -29,6 +29,15 @@ import us.zoom.sdk.ZoomSDKInitializeListener;
 public class ZoomModule extends KrollModule implements MeetingServiceListener,
 		ZoomSDKInitializeListener, ZoomSDKAuthenticationListener {
 
+	@Kroll.constant
+	public static final int ERROR_DEVICE_NOT_SUPPORTED = ZoomError.ZOOM_ERROR_DEVICE_NOT_SUPPORTED;
+	@Kroll.constant
+	public static final int ERROR_ILLEGAL_APP_KEY_OR_SECRET = ZoomError.ZOOM_ERROR_ILLEGAL_APP_KEY_OR_SECRET;
+	@Kroll.constant
+	public static final int ERROR_INVALID_ARGUMENTS = ZoomError.ZOOM_ERROR_INVALID_ARGUMENTS;
+	@Kroll.constant
+	public static final int ERROR_SUCCESS = ZoomError.ZOOM_ERROR_SUCCESS;
+
 	private static final String LCAT = "Zoom";
 	private static final boolean DBG = TiConfig.LOGD;
 	private ZoomSDK sdk;
@@ -51,40 +60,30 @@ public class ZoomModule extends KrollModule implements MeetingServiceListener,
 	// Methods
 	@Kroll.method
 	public void initialize(KrollDict opts) {
-		String appkey;
-		String appsecret;
+		String appkey = "";
+		String appsecret = "";
+		if (opts.containsKeyAndNotNull("appkey"))
+			appkey = opts.getString("appkey");
+		if (opts.containsKeyAndNotNull("appsecret"))
+			appkey = opts.getString("appsecret");
 		sdk.initialize(ctx, appkey, appsecret, false, this);
-	}
-
-	// Properties
-	@Kroll.getProperty
-	public String getExampleProp() {
-		Log.d(LCAT, "get example property");
-		return "hello world";
 	}
 
 	@Override
 	public void onZoomIdentityExpired() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onZoomSDKLoginResult(long l) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onZoomSDKLogoutResult(long result) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onMeetingStatusChanged(MeetingStatus meetingStatus,
 			int errorCode, int internalErrorCode) {
-
 		if (meetingStatus == MeetingStatus.MEETING_STATUS_FAILED
 				&& errorCode == MeetingError.MEETING_ERROR_CLIENT_INCOMPATIBLE) {
 			// Toast.makeText(this, "Version of ZoomSDK is too low!",
