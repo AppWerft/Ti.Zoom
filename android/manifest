@@ -1,0 +1,18 @@
+#
+# this is your module manifest and used by Titanium
+# during compilation, packaging, distribution, etc.
+#
+version: 1.0.0
+apiversion: 4
+architectures: arm64-v8a armeabi-v7a x86
+description: zoom
+author: Rainer
+license: Specify your license
+copyright: Copyright (c) 2018 by Your Company
+
+# these should not be edited
+name: zoom
+moduleid: de.appwerft.zoom
+guid: 9af15b19-d90f-4285-872b-65db7d99d49a
+platform: android
+minsdk: 7.0.1.GA
